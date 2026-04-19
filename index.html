@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoNest — Your Smart Auto Services Hub</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-dot"></span>Auto<span>Nest</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="services/ev-charging.html">EV</a></li>
+      <li><a href="services/mechanics.html">Mechanics</a></li>
+    </ul>
+    <div class="nav-actions">
+      <!-- Notifications -->
+      <div style="position:relative">
+        <button class="notif-badge" id="notifBtn">🔔
+          <span class="notif-count">3</span>
+        </button>
+        <div class="notif-panel" id="notifPanel">
+          <p style="font-weight:600;font-size:.85rem;margin-bottom:.75rem;color:var(--white)">Notifications</p>
+          <div class="notif-item"><span class="notif-icon">⚡</span><div class="notif-text"><p>EV Station — Slot available now</p><span>2 min ago</span></div></div>
+          <div class="notif-item"><span class="notif-icon">🔧</span><div class="notif-text"><p>Mechanic confirmed your booking</p><span>1 hr ago</span></div></div>
+          <div class="notif-item"><span class="notif-icon">🚿</span><div class="notif-text"><p>Car wash reminder — tomorrow 10 AM</p><span>3 hrs ago</span></div></div>
+        </div>
+      </div>
+      <!-- Profile (hidden until logged in) -->
+      <div style="position:relative;display:none" id="profileWrap">
+        <button class="profile-avatar" id="profileBtn" style="width:38px;height:38px;border-radius:50%;background:var(--teal-dim);border:2px solid var(--teal-glow);color:var(--teal);font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem" id="profileAvatar">AM</button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar">AM</div>
+            <div><div class="profile-name" id="profileName">Arjun Mehta</div><div class="profile-email" id="profileEmail">arjun@email.com</div></div>
+          </div>
+          <div class="profile-links">
+            <a href="#">👤 My Profile</a>
+            <a href="#">📋 Past Bookings</a>
+            <a href="#">★ Saved Services</a>
+            <a href="#" id="logoutBtn" style="color:var(--red)">🚪 Sign Out</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="login.html" class="btn-ghost">Login</a>
+      <a href="register.html" class="btn-primary">Get Started</a>
+      <button class="hamburger" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+
+
+<!-- ── Hero ───────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container" style="width:100%;position:relative;z-index:1">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>✦</span> Smart Auto Services, Nashik
+      </div>
+      <h1>Your Car. <span class="highlight">Every Need.</span><br>One Place.</h1>
+      <p class="hero-desc">
+        Find EV charging stations, trusted mechanics, book CNG slots, and premium car washes — all within minutes of you.
+      </p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary btn-lg">Explore Services →</a>
+        <button class="btn-ghost btn-lg" id="findNearMe">🔍 Quick Find Near Me</button>
+      </div>
+    
+    </div>
+  </div>
+  <!-- Floating visual cards -->
+  <div class="hero-visual">
+    <div class="float-card fc-main">
+      <div class="fc-head">⚡ EV CHARGING STATUS</div>
+      <div class="fc-row">
+        <div class="fc-title">PowerGrid Hub</div>
+        <span class="fc-badge badge-green">Available</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+      <div class="fc-head" style="margin-top:.6rem">2 of 6 chargers busy</div>
+    </div>
+    <div class="float-card fc-charge">
+      <div class="fc-head">🛢️ CNG SLOTS</div>
+      <div class="fc-row">
+        <div class="fc-title">Morning Slot</div>
+        <span class="fc-badge badge-amber">3 Left</span>
+      </div>
+    </div>
+    <div class="float-card fc-wash">
+      <div class="fc-head">🚿 CAR WASH</div>
+      <div class="fc-row">
+        <div class="fc-title">Premium Wash</div>
+        <span class="fc-badge badge-green">₹399</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Dashboard Quick Cards ──────────────────────────────── -->
+<section class="section" id="dashboard">
+  <div class="container">
+    <div class="section-header fade-in-section">
+      <h2>Your <span class="highlight">Dashboard</span></h2>
+      <p>Live overview of services near you in Nashik</p>
+    </div>
+    <div class="dash-grid fade-in-section">
+      <div class="dash-card" onclick="window.location='services/ev-charging.html'">
+        <div class="dash-icon">⚡</div>
+        <h3>EV Stations Nearby</h3>
+        <p>7 charging stations within 5km</p>
+        <div class="dash-meta">
+          <span class="dash-num">7</span>
+          <span class="fc-badge badge-green">3 Available</span>
+        </div>
+      </div>
+      <div class="dash-card" onclick="window.location='services/mechanics.html'">
+        <div class="dash-icon">🔧</div>
+        <h3>Trusted Mechanics</h3>
+        <p>Verified professionals ready to help</p>
+        <div class="dash-meta">
+          <span class="dash-num">14</span>
+          <span class="fc-badge badge-green">Open Now</span>
+        </div>
+      </div>
+      <div class="dash-card" onclick="window.location='services/cng-booking.html'">
+        <div class="dash-icon">🛢️</div>
+        <h3>CNG Slot Availability</h3>
+        <p>Book your slot to skip the queue</p>
+        <div class="dash-meta">
+          <span class="dash-num">5</span>
+          <span class="fc-badge badge-amber">Slots Left</span>
+        </div>
+      </div>
+      <div class="dash-card" onclick="window.location='services/car-wash.html'">
+        <div class="dash-icon">🚿</div>
+        <h3>Car Wash Centers</h3>
+        <p>From basic rinse to full detailing</p>
+        <div class="dash-meta">
+          <span class="dash-num">9</span>
+          <span class="fc-badge badge-green">Open</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Smart Suggestions ──────────────────────────────────── -->
+<section style="padding: 0 0 60px">
+  <div class="container fade-in-section">
+    <div class="flex-between mb-2">
+      <h3>✨ Recommended for You</h3>
+      <a href="#" class="text-teal" style="font-size:.88rem">See all</a>
+    </div>
+    <div class="suggestions-row">
+      <div class="sug-card"><div class="sug-label">🔥 POPULAR NEARBY</div><div class="sug-title">PowerGrid Fast Charge</div><div class="sug-meta">⚡ 1.2 km · Open · 4.9★</div></div>
+      <div class="sug-card"><div class="sug-label">⭐ TOP RATED</div><div class="sug-title">Ramesh Auto Workshop</div><div class="sug-meta">🔧 0.8 km · Open · 4.8★</div></div>
+      <div class="sug-card"><div class="sug-label">⚡ HIGH DEMAND</div><div class="sug-title">City CNG Hub</div><div class="sug-meta">🛢️ 2.1 km · 3 slots left</div></div>
+      <div class="sug-card"><div class="sug-label">💎 PREMIUM</div><div class="sug-title">Shine Pro Car Wash</div><div class="sug-meta">🚿 1.5 km · Detailing</div></div>
+      <div class="sug-card"><div class="sug-label">🆕 NEW</div><div class="sug-title">EcoCharge Station</div><div class="sug-meta">⚡ 3.0 km · Solar powered</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services Overview ──────────────────────────────────── -->
+<section class="section" id="services" style="background: var(--navy-2)">
+  <div class="container">
+    <div class="section-header fade-in-section">
+      <h2>All <span class="highlight">Services</span></h2>
+      <p>Everything your vehicle needs, available at your fingertips</p>
+    </div>
+    <div class="services-grid fade-in-section">
+      <a href="services/ev-charging.html" class="service-card">
+        <span class="service-icon">⚡</span>
+        <h3>EV Charging</h3>
+        <p>Find nearby charging stations with live availability. Fast and slow charging options.</p>
+        <div class="service-arrow">Explore Stations →</div>
+      </a>
+      <a href="services/mechanics.html" class="service-card">
+        <span class="service-icon">🔧</span>
+        <h3>Nearby Mechanics</h3>
+        <p>Trusted, verified mechanics with ratings, distance, and direct contact info.</p>
+        <div class="service-arrow">Find Mechanics →</div>
+      </a>
+      <a href="services/cng-booking.html" class="service-card">
+        <span class="service-icon">🛢️</span>
+        <h3>CNG Booking</h3>
+        <p>Reserve your CNG slot in advance. No more waiting in long queues.</p>
+        <div class="service-arrow">Book a Slot →</div>
+      </a>
+      <a href="services/car-wash.html" class="service-card">
+        <span class="service-icon">🚿</span>
+        <h3>Car Washing</h3>
+        <p>Choose from Basic, Premium, or Deluxe wash packages. Doorstep pickup available.</p>
+        <div class="service-arrow">View Packages →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Map Section ────────────────────────────────────────── -->
+<section class="map-section">
+  <div class="container">
+    <div class="section-header fade-in-section">
+      <h2>Services <span class="highlight">Near You</span></h2>
+      <p>Interactive map showing all service points in Nashik</p>
+    </div>
+    <div class="fade-in-section">
+      <div class="map-bg">
+        <div class="map-grid-overlay"></div>
+        <!-- Simulated map pins -->
+        <div class="map-pin pin-ev"   style="left:30%;top:40%"><div class="pin-label">⚡ PowerGrid</div><div class="pin-dot"></div></div>
+        <div class="map-pin pin-ev"   style="left:65%;top:25%"><div class="pin-label">⚡ EcoCharge</div><div class="pin-dot"></div></div>
+        <div class="map-pin pin-mech" style="left:45%;top:55%"><div class="pin-label">🔧 Ramesh Auto</div><div class="pin-dot"></div></div>
+        <div class="map-pin pin-mech" style="left:20%;top:65%"><div class="pin-label">🔧 Patel Motors</div><div class="pin-dot"></div></div>
+        <div class="map-pin pin-cng"  style="left:55%;top:70%"><div class="pin-label">🛢️ City CNG</div><div class="pin-dot"></div></div>
+        <div class="map-pin pin-wash" style="left:75%;top:55%"><div class="pin-label">🚿 Shine Pro</div><div class="pin-dot"></div></div>
+        <!-- Center dot = user -->
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2">
+          <div style="width:20px;height:20px;border-radius:50%;background:white;border:3px solid var(--teal);box-shadow:0 0 0 6px rgba(0,212,170,.2)"></div>
+        </div>
+        <div style="position:absolute;bottom:1rem;left:1rem;background:var(--card-glass);backdrop-filter:blur(12px);padding:.5rem .9rem;border-radius:8px;font-size:.78rem;border:1px solid var(--border)">📍 You are here — Nashik, Maharashtra</div>
+      </div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> EV Charging</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Mechanics</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> CNG Station</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div> Car Wash</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Auto<span>Nest</span></div>
+        <p>Your one-stop hub for smart auto services in Nashik. EV charging, mechanics, CNG booking, and car wash — all in one app.</p>
+        <div class="social-links mt-3">
+          <a href="#">𝕏</a><a href="#">in</a><a href="#">▶</a><a href="#">📘</a>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services/ev-charging.html">EV Charging</a></li>
+          <li><a href="services/mechanics.html">Mechanics</a></li>
+          <li><a href="services/cng-booking.html">CNG Booking</a></li>
+          <li><a href="services/car-wash.html">Car Wash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+          <ul>
+          <li><a href="/autonest-website/project/about.html">About Us</a></li>
+          <li><a href="/autonest-website/project/careers.html">Careers</a></li>
+          <li><a href="/autonest-website/project/contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+         <ul>
+          <li><a href="/autonest-website/project/help.html">Help Center</a></li>
+          <li><a href="/autonest-website/project/faq.html">FAQ</a></li>
+          <li><a href="/autonest-website/project/privacy.html">Privacy Policy</a></li>
+          <li><a href="/autonest-website/project/terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="color:var(--muted)">© 2026 AutoNest. All rights reserved.</p>
+      <p style="color:var(--muted);font-size:.8rem">Made with ❤️ for Nashik</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB -->
+<div class="fab">
+  <div class="fab-options" id="fabOptions">
+    <a href="services/ev-charging.html" class="fab-opt"><span class="fab-opt-icon">⚡</span> Find EV Station</a>
+    <a href="services/cng-booking.html" class="fab-opt"><span class="fab-opt-icon">🛢️</span> Book CNG Slot</a>
+    <a href="services/car-wash.html"    class="fab-opt"><span class="fab-opt-icon">🚿</span> Book Car Wash</a>
+    <a href="services/mechanics.html"   class="fab-opt"><span class="fab-opt-icon">🔧</span> Find Mechanic</a>
+  </div>
+  <button class="fab-main" id="fabBtn">+</button>
+</div>
+
+<!-- Chatbot -->
+<button class="chatbot-trigger" title="Chat with AutoBot">💬</button>
+<div class="chat-window">
+  <div class="chat-head">
+    <span>🤖</span> AutoBot
+    <button class="chat-close" style="margin-left:auto;font-size:1.1rem;color:var(--navy)">✕</button>
+  </div>
+  <div class="chat-body">
+    <div class="chat-msg">👋 Hi! I'm AutoBot. How can I help you today?</div>
+    <div class="chat-msg">Try: "Find EV station", "Book CNG", "Best mechanics near me"</div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" placeholder="Ask AutoBot..." />
+    <button class="chat-send">➤</button>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

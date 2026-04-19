@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — AutoNest</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-dot"></span>Auto<span>Nest</span></a>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="login.html" class="btn-ghost">Sign In</a>
+    </div>
+  </div>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="nav-logo" style="justify-content:center;font-size:1.8rem">
+        <span class="logo-dot"></span>Auto<span style="color:var(--teal)">Nest</span>
+      </div>
+    </div>
+    <h2 class="auth-title">Create your account 🚀</h2>
+    <p class="auth-sub">Join 1,200+ Nashik drivers who trust AutoNest.</p>
+
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="regName">Full Name</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input type="text" class="form-input padded" id="regName" placeholder="Arjun Mehta" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regEmail">Email Address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input type="email" class="form-input padded" id="regEmail" placeholder="you@example.com" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regPhone">Phone Number</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📞</span>
+          <input type="tel" class="form-input padded" id="regPhone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regPass">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input type="password" class="form-input padded" id="regPass" placeholder="Min. 8 characters" required />
+        </div>
+        <div class="error-msg" id="regPassErr"></div>
+        <!-- Password strength bar -->
+        <div id="strengthBar" style="display:flex;gap:4px;margin-top:.5rem">
+          <div style="flex:1;height:4px;border-radius:4px;background:var(--border)" id="sb1"></div>
+          <div style="flex:1;height:4px;border-radius:4px;background:var(--border)" id="sb2"></div>
+          <div style="flex:1;height:4px;border-radius:4px;background:var(--border)" id="sb3"></div>
+          <div style="flex:1;height:4px;border-radius:4px;background:var(--border)" id="sb4"></div>
+        </div>
+        <div id="strengthLabel" style="font-size:.74rem;color:var(--muted);margin-top:.25rem"></div>
+      </div>
+      <div class="form-group">
+        <label for="regConf">Confirm Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input type="password" class="form-input padded" id="regConf" placeholder="Repeat your password" required />
+        </div>
+        <div class="error-msg" id="regConfErr"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1.25rem">
+        <input type="checkbox" id="terms" style="margin-top:.2rem;accent-color:var(--teal)" required />
+        <label for="terms" style="font-size:.85rem;color:var(--muted)">I agree to the <a href="#" style="color:var(--teal)">Terms of Service</a> and <a href="#" style="color:var(--teal)">Privacy Policy</a></label>
+      </div>
+      <button type="submit" class="btn-primary w-full btn-lg">Create Account →</button>
+    </form>
+
+    <div class="form-divider">or sign up with</div>
+    <div style="display:flex;gap:.75rem">
+      <button class="social-btn" style="flex:1">🇬 Google</button>
+      <button class="social-btn" style="flex:1">📘 Facebook</button>
+    </div>
+
+    <div class="auth-footer">
+      Already have an account? <a href="login.html">Sign in →</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  // Password strength meter
+  const passInput = document.getElementById('regPass');
+  const bars = [document.getElementById('sb1'), document.getElementById('sb2'), document.getElementById('sb3'), document.getElementById('sb4')];
+  const label = document.getElementById('strengthLabel');
+  const strengths = [
+    { color: '#ff5470', text: 'Weak' },
+    { color: '#ffb547', text: 'Fair' },
+    { color: '#00d4aa', text: 'Good' },
+    { color: '#00b896', text: 'Strong 💪' }
+  ];
+  passInput?.addEventListener('input', () => {
+    const v = passInput.value;
+    let score = 0;
+    if (v.length >= 8)  score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    bars.forEach((b, i) => {
+      b.style.background = i < score ? strengths[score - 1].color : 'var(--border)';
+    });
+    label.textContent = v.length > 0 ? strengths[Math.max(score - 1, 0)].text : '';
+    label.style.color  = v.length > 0 ? strengths[Math.max(score - 1, 0)].color : 'var(--muted)';
+  });
+</script>
+</body>
+</html>

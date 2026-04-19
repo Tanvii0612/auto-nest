@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help Center — AutoNest</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .help-search-wrap {
+      max-width: 560px; margin: 2rem auto 0;
+      position: relative;
+    }
+    .help-search-wrap input {
+      width: 100%; padding: .85rem 1.2rem .85rem 3rem;
+      background: var(--card-glass); border: 1px solid var(--border);
+      border-radius: var(--r-md); color: var(--white); font-size: 1rem;
+      outline: none; transition: border-color var(--transition);
+      backdrop-filter: blur(12px);
+    }
+    .help-search-wrap input:focus { border-color: var(--teal); }
+    .help-search-wrap input::placeholder { color: var(--muted); }
+    .help-search-wrap .search-icon {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      font-size: 1rem; color: var(--muted); pointer-events: none;
+    }
+    .help-categories {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .help-cat-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 2rem 1.75rem;
+      transition: all var(--transition); cursor: pointer;
+      text-decoration: none; display: block;
+    }
+    .help-cat-card:hover {
+      border-color: var(--teal-glow); transform: translateY(-4px);
+      background: var(--card-glass);
+    }
+    .help-cat-icon {
+      width: 52px; height: 52px; border-radius: var(--r-sm);
+      background: var(--teal-dim); border: 1px solid var(--teal-glow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.25rem;
+    }
+    .help-cat-card h3 { color: var(--white); margin-bottom: .5rem; }
+    .help-cat-card p { font-size: .88rem; }
+    .help-cat-card .cat-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      color: var(--teal); font-size: .85rem; font-weight: 600;
+      margin-top: 1rem;
+    }
+    .popular-articles { margin-top: 1rem; }
+    .article-item {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .9rem 0; border-bottom: 1px solid var(--border);
+      color: var(--muted); font-size: .9rem; transition: color var(--transition);
+      cursor: pointer;
+    }
+    .article-item:last-child { border-bottom: none; }
+    .article-item:hover { color: var(--white); }
+    .article-item .art-icon { font-size: .8rem; color: var(--teal); }
+    .article-item .art-arrow { margin-left: auto; font-size: .75rem; color: var(--teal); }
+    .cta-help {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 3rem 2rem; text-align: center;
+      margin-top: 1rem;
+    }
+    .cta-help h3 { color: var(--white); margin-bottom: .75rem; }
+    .cta-help p { margin-bottom: 1.75rem; }
+    .cta-help .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Article search results */
+    .search-results {
+      max-width: 560px; margin: .5rem auto 0;
+      background: var(--navy-2); border: 1px solid var(--border);
+      border-radius: var(--r-md); overflow: hidden; display: none;
+    }
+    .search-results.show { display: block; }
+    .search-result-item {
+      padding: .75rem 1.2rem; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background var(--transition);
+      font-size: .9rem; color: var(--muted);
+    }
+    .search-result-item:hover { background: var(--card-bg); color: var(--white); }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-no-results { padding: 1rem 1.2rem; color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-dot"></span>Auto<span>Nest</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="help.html" class="active">Help Center</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="login.html" class="btn-ghost">Login</a>
+      <a href="register.html" class="btn-primary">Get Started</a>
+      <button class="hamburger" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="index.html#services">Services</a>
+  <a href="help.html">Help Center</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="careers.html">Careers</a>
+  <a href="terms.html">Terms</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="login.html" class="btn-ghost" style="width:fit-content">Login</a>
+  <a href="register.html" class="btn-primary" style="width:fit-content">Get Started</a>
+</div>
+
+<!-- ── Page Header ─────────────────────────────────────────── -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Help Center</div>
+    <h1>How can we <span class="highlight">help you?</span></h1>
+    <p>Search our knowledge base or browse categories below</p>
+    <div class="help-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="helpSearch" placeholder="Search for answers... e.g., 'cancel booking', 'refund'">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Help Categories ──────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in-section">
+      <h2>Browse by <span class="highlight">Category</span></h2>
+      <p>Find answers organised by topic</p>
+    </div>
+    <div class="help-categories fade-in-section">
+
+      <a href="faq.html#booking" class="help-cat-card">
+        <div class="help-cat-icon">📅</div>
+        <h3>Booking Services</h3>
+        <p>How to book EV charging, CNG slots, mechanics, and car wash appointments.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+      <a href="faq.html#payments" class="help-cat-card">
+        <div class="help-cat-icon">💳</div>
+        <h3>Payments & Refunds</h3>
+        <p>Understand payment methods, billing, refund timelines, and failed transactions.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+      <a href="faq.html#orders" class="help-cat-card">
+        <div class="help-cat-icon">📦</div>
+        <h3>Orders & Tracking</h3>
+        <p>Track your active bookings, view order history, and get real-time status updates.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+      <a href="faq.html#account" class="help-cat-card">
+        <div class="help-cat-icon">🔐</div>
+        <h3>Account Issues</h3>
+        <p>Login problems, password reset, profile management, and security settings.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+      <a href="faq.html#technical" class="help-cat-card">
+        <div class="help-cat-icon">🛠️</div>
+        <h3>Technical Issues</h3>
+        <p>App not loading, notifications not working, map issues and more troubleshooting tips.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+      <a href="faq.html#general" class="help-cat-card">
+        <div class="help-cat-icon">💬</div>
+        <h3>General Queries</h3>
+        <p>About AutoNest, supported cities, partner stations, and general platform information.</p>
+        <span class="cat-link">Browse articles →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Popular Articles ─────────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header fade-in-section">
+      <h2>Popular <span class="highlight">Articles</span></h2>
+      <p>Most read answers from our community</p>
+    </div>
+    <div style="max-width:720px;margin:0 auto" class="fade-in-section">
+      <div class="popular-articles">
+        <div class="article-item"><span class="art-icon">●</span> How do I cancel a booking and get a refund? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> What payment methods are accepted on AutoNest? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> How to find EV charging stations near me? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> I forgot my password — how to reset it? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> How to book a CNG slot in advance? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> My mechanic booking was auto-cancelled — what happens next? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> How do I update my vehicle details? <span class="art-arrow">→</span></div>
+        <div class="article-item"><span class="art-icon">●</span> Why is my payment showing as pending? <span class="art-arrow">→</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Still Need Help CTA ──────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta-help fade-in-section">
+      <div style="font-size:2.5rem;margin-bottom:1rem">🤝</div>
+      <h3>Still need help?</h3>
+      <p>Can't find what you're looking for? Our support team is ready to assist you.</p>
+      <div class="btn-row">
+        <a href="contact.html" class="btn-primary btn-lg">📧 Contact Support</a>
+        <a href="faq.html" class="btn-ghost btn-lg">❓ View Full FAQ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Auto<span>Nest</span></div>
+        <p>Your one-stop hub for smart auto services in Nashik. EV charging, mechanics, CNG booking, and car wash — all in one app.</p>
+        <div class="social-links mt-3">
+          <a href="#">𝕏</a><a href="#">in</a><a href="#">▶</a><a href="#">📘</a>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services/ev-charging.html">EV Charging</a></li>
+          <li><a href="services/mechanics.html">Mechanics</a></li>
+          <li><a href="services/cng-booking.html">CNG Booking</a></li>
+          <li><a href="services/car-wash.html">Car Wash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="help.html">Help Center</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="color:var(--muted)">© 2025 AutoNest. All rights reserved.</p>
+      <p style="color:var(--muted);font-size:.8rem">Made with ❤️ for Nashik</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  // ── Help Search ──────────────────────────────────────────────
+  const articles = [
+    'How do I cancel a booking?',
+    'What payment methods are accepted?',
+    'How to find EV charging stations near me?',
+    'I forgot my password — how to reset it?',
+    'How to book a CNG slot in advance?',
+    'How do I update my vehicle details?',
+    'Why is my payment showing as pending?',
+    'My mechanic booking was auto-cancelled',
+    'How do I contact support?',
+    'How to track my order?',
+    'Can I reschedule a car wash appointment?',
+    'What is the refund policy?',
+    'How to change my email address?',
+    'Are there any service charges?',
+    'How do I apply a promo code?',
+  ];
+
+  const input = document.getElementById('helpSearch');
+  const results = document.getElementById('searchResults');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) { results.classList.remove('show'); return; }
+    const filtered = articles.filter(a => a.toLowerCase().includes(q));
+    if (!filtered.length) {
+      results.innerHTML = '<div class="search-no-results">No results found. Try <a href="contact.html" style="color:var(--teal)">contacting us</a>.</div>';
+    } else {
+      results.innerHTML = filtered.map(a =>
+        `<div class="search-result-item" onclick="window.location='faq.html'">📄 ${a}</div>`
+      ).join('');
+    }
+    results.classList.add('show');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!input.contains(e.target) && !results.contains(e.target))
+      results.classList.remove('show');
+  });
+</script>
+</body>
+</html>

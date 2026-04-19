@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions — AutoNest</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .legal-layout {
+      display: grid; grid-template-columns: 220px 1fr; gap: 3rem; align-items: start;
+    }
+    @media(max-width:900px) { .legal-layout { grid-template-columns: 1fr; } }
+
+    .legal-toc {
+      position: sticky; top: 90px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 1.5rem;
+    }
+    @media(max-width:900px) { .legal-toc { position: static; } }
+    .legal-toc h4 {
+      color: var(--white); font-size: .88rem; font-weight: 700;
+      margin-bottom: 1rem; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .toc-links { display: flex; flex-direction: column; gap: .1rem; }
+    .toc-links a {
+      font-size: .82rem; color: var(--muted); padding: .35rem .5rem;
+      border-radius: 6px; transition: all var(--transition);
+      border-left: 2px solid transparent;
+    }
+    .toc-links a:hover, .toc-links a.active {
+      color: var(--teal); border-left-color: var(--teal);
+      background: var(--teal-dim);
+    }
+
+    /* .legal-content { } */
+    .legal-meta {
+      display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 2.5rem;
+    }
+    .legal-meta-item {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: .6rem 1rem;
+      font-size: .82rem; color: var(--muted);
+    }
+    .legal-meta-item strong { color: var(--white); display: block; font-size: .85rem; }
+
+    .legal-section {
+      margin-bottom: 2.5rem; scroll-margin-top: 90px;
+    }
+    .legal-section h2 {
+      font-size: 1.25rem; font-weight: 700; color: var(--white);
+      margin-bottom: 1rem; padding-bottom: .75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .legal-section h2 .section-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--teal-dim); border: 1px solid var(--teal-glow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; color: var(--teal); flex-shrink: 0;
+    }
+    .legal-section p {
+      font-size: .92rem; line-height: 1.8; margin-bottom: .85rem;
+      color: var(--muted);
+    }
+    .legal-section ul {
+      list-style: disc; padding-left: 1.5rem; margin-bottom: .85rem;
+    }
+    .legal-section ul li {
+      font-size: .92rem; line-height: 1.8; color: var(--muted);
+      margin-bottom: .35rem;
+    }
+    .legal-section a { color: var(--teal); text-decoration: underline; }
+    .legal-section strong { color: var(--white); }
+
+    .legal-card {
+      background: var(--teal-dim); border: 1px solid var(--teal-glow);
+      border-radius: var(--r-md); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+    }
+    .legal-card p { color: var(--teal); margin: 0; font-size: .88rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-dot"></span>Auto<span>Nest</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="help.html">Help Center</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="terms.html" class="active">Terms</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="login.html" class="btn-ghost">Login</a>
+      <a href="register.html" class="btn-primary">Get Started</a>
+      <button class="hamburger" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="help.html">Help Center</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="terms.html">Terms</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="login.html" class="btn-ghost" style="width:fit-content">Login</a>
+  <a href="register.html" class="btn-primary" style="width:fit-content">Get Started</a>
+</div>
+
+<!-- ── Page Header ─────────────────────────────────────────── -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Terms & Conditions</div>
+    <h1>Terms & <span class="highlight">Conditions</span></h1>
+    <p>Please read these terms carefully before using AutoNest services</p>
+  </div>
+</div>
+
+<!-- ── Legal Content ────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="legal-layout">
+
+      <!-- Sticky TOC -->
+      <div class="legal-toc fade-in-section">
+        <h4>Contents</h4>
+        <div class="toc-links">
+          <a href="#introduction">1. Introduction</a>
+          <a href="#acceptance">2. Acceptance of Terms</a>
+          <a href="#services">3. Services Description</a>
+          <a href="#responsibilities">4. User Responsibilities</a>
+          <a href="#booking-payments">5. Booking & Payments</a>
+          <a href="#cancellation">6. Cancellation & Refunds</a>
+          <a href="#liability">7. Limitation of Liability</a>
+          <a href="#ip">8. Intellectual Property</a>
+          <a href="#termination">9. Termination</a>
+          <a href="#governing">10. Governing Law</a>
+        </div>
+      </div>
+
+      <!-- Legal text -->
+      <div class="legal-content fade-in-section">
+
+        <!-- Meta info -->
+        <div class="legal-meta">
+          <div class="legal-meta-item"><strong>Effective Date</strong>January 1, 2025</div>
+          <div class="legal-meta-item"><strong>Last Updated</strong>April 1, 2025</div>
+          <div class="legal-meta-item"><strong>Jurisdiction</strong>India (Maharashtra)</div>
+        </div>
+
+        <div class="legal-card">
+          <p>⚠️ By accessing or using AutoNest's platform, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.</p>
+        </div>
+
+        <div class="legal-section" id="introduction">
+          <h2><span class="section-num">1</span>Introduction</h2>
+          <p>Welcome to AutoNest ("Company", "we", "our", or "us"). AutoNest Technologies Pvt. Ltd. is a company registered under the Companies Act, 2013, with its registered office in Nashik, Maharashtra, India.</p>
+          <p>These Terms and Conditions ("Terms") govern your use of our website at <strong>autonest.com</strong> and any related mobile applications, services, features, and content (collectively, the "Platform"). These Terms constitute a legally binding agreement between you ("User", "you") and AutoNest.</p>
+        </div>
+
+        <div class="legal-section" id="acceptance">
+          <h2><span class="section-num">2</span>Acceptance of Terms</h2>
+          <p>By creating an account, accessing, or using the Platform in any manner, you acknowledge that you have read, understood, and agree to be bound by these Terms, as well as our <a href="privacy.html">Privacy Policy</a>. You must be at least 18 years of age to use this Platform.</p>
+          <p>We reserve the right to modify these Terms at any time. Continued use of the Platform after any changes constitutes acceptance of the new Terms. We will notify users of material changes via email or a prominent notice on the Platform.</p>
+        </div>
+
+        <div class="legal-section" id="services">
+          <h2><span class="section-num">3</span>Services Description</h2>
+          <p>AutoNest provides an online marketplace and booking platform for the following auto services:</p>
+          <ul>
+            <li><strong>EV Charging:</strong> Locate and reserve EV charging slots at partnered stations in Nashik.</li>
+            <li><strong>CNG Booking:</strong> Pre-book CNG filling slots to avoid queues at partnered CNG stations.</li>
+            <li><strong>Mechanics:</strong> Connect with verified, partner mechanics for vehicle servicing and repairs.</li>
+            <li><strong>Car Wash:</strong> Book premium car wash packages at partnered centres.</li>
+          </ul>
+          <p>AutoNest acts as an intermediary platform connecting users with service providers. We are not directly responsible for the quality of services delivered by partner providers, though we vet all partners and maintain quality standards.</p>
+        </div>
+
+        <div class="legal-section" id="responsibilities">
+          <h2><span class="section-num">4</span>User Responsibilities</h2>
+          <p>As a user of the Platform, you agree to:</p>
+          <ul>
+            <li>Provide accurate, current, and complete information during registration and bookings.</li>
+            <li>Maintain the security of your account credentials and not share them with any third party.</li>
+            <li>Notify us immediately of any unauthorized use of your account.</li>
+            <li>Use the Platform only for lawful purposes and in accordance with these Terms.</li>
+            <li>Not use the Platform to transmit any harmful, offensive, or illegal content.</li>
+            <li>Arrive at the booked service location on time. Late arrivals may result in cancellation without refund.</li>
+            <li>Not attempt to reverse-engineer, scrape, or disrupt the Platform's systems.</li>
+          </ul>
+          <p>You are solely responsible for all activity that occurs under your account. AutoNest reserves the right to suspend accounts found violating these terms.</p>
+        </div>
+
+        <div class="legal-section" id="booking-payments">
+          <h2><span class="section-num">5</span>Booking & Payments Policy</h2>
+          <p>All bookings made through AutoNest are subject to availability. A booking is confirmed only after successful payment processing. You will receive a confirmation notification via email and/or SMS.</p>
+          <p><strong>Payments:</strong> All transactions are processed securely through Razorpay, a PCI-DSS compliant payment gateway. AutoNest does not store your credit/debit card information on its servers.</p>
+          <p><strong>Pricing:</strong> Service prices are set by partner providers and may vary. All prices displayed on the Platform include applicable GST unless stated otherwise. AutoNest may charge a platform convenience fee for certain transactions, which will always be disclosed before checkout.</p>
+          <p>In the event of a pricing error, AutoNest reserves the right to cancel the booking and issue a full refund.</p>
+        </div>
+
+        <div class="legal-section" id="cancellation">
+          <h2><span class="section-num">6</span>Cancellation & Refund Policy</h2>
+          <p><strong>Cancellation by User:</strong></p>
+          <ul>
+            <li>Cancelled more than 2 hours before the scheduled slot: <strong>Full refund</strong> (processed in 5–7 business days).</li>
+            <li>Cancelled within 2 hours of the scheduled slot: <strong>80% refund</strong> (20% cancellation fee retained).</li>
+            <li>No-show (user does not arrive): <strong>No refund</strong>.</li>
+          </ul>
+          <p><strong>Cancellation by Service Provider:</strong> If a partner cancels your confirmed booking for any reason, you will receive a full refund and, where possible, an offer to rebook at no additional cost.</p>
+          <p><strong>Refund Processing:</strong> Refunds are credited to your original payment instrument. UPI/wallet refunds typically process within 1–3 business days; card/net banking refunds within 5–7 business days.</p>
+        </div>
+
+        <div class="legal-section" id="liability">
+          <h2><span class="section-num">7</span>Limitation of Liability</h2>
+          <p>To the fullest extent permitted by applicable law, AutoNest, its directors, employees, and partners shall not be liable for:</p>
+          <ul>
+            <li>Any indirect, incidental, punitive, or consequential damages arising from use of the Platform.</li>
+            <li>Loss of data, revenue, profits, or business opportunities.</li>
+            <li>Any injury, damage, or dissatisfaction resulting from partner service providers' actions.</li>
+            <li>Platform downtime, technical errors, or data breaches beyond our reasonable control.</li>
+          </ul>
+          <p>AutoNest's total liability to you for any claim arising from these Terms shall not exceed the amount paid by you for the specific service in question during the 30 days prior to the claim.</p>
+          <p>The Platform is provided "as is" and "as available" without warranties of any kind, either express or implied.</p>
+        </div>
+
+        <div class="legal-section" id="ip">
+          <h2><span class="section-num">8</span>Intellectual Property</h2>
+          <p>All content on the AutoNest Platform — including but not limited to the logo, design, code, text, graphics, service listings, and data — is the exclusive intellectual property of AutoNest Technologies Pvt. Ltd. or its licensors, protected under Indian and international copyright laws.</p>
+          <p>You may not reproduce, distribute, modify, create derivative works from, or commercially exploit any part of the Platform without our express written consent. User-generated content (such as reviews) grants AutoNest a royalty-free license to display and use such content on the Platform.</p>
+        </div>
+
+        <div class="legal-section" id="termination">
+          <h2><span class="section-num">9</span>Termination</h2>
+          <p>AutoNest may suspend or terminate your account and access to the Platform at our sole discretion, without notice, for conduct that we believe violates these Terms, is harmful to other users, the Platform, or third parties, or for any other reason we deem appropriate.</p>
+          <p>You may terminate your account at any time by contacting us at <a href="mailto:support@autonest.com">support@autonest.com</a>. Upon termination, all pending bookings will be handled per the Cancellation Policy above. Provisions of these Terms that by their nature should survive termination shall survive, including intellectual property ownership, disclaimer of warranties, and limitation of liability.</p>
+        </div>
+
+        <div class="legal-section" id="governing">
+          <h2><span class="section-num">10</span>Governing Law</h2>
+          <p>These Terms and any dispute arising out of or related to these Terms or the Platform shall be governed by and construed in accordance with the laws of <strong>India</strong>, specifically the Information Technology Act, 2000 and Consumer Protection Act, 2019, as applicable.</p>
+          <p>Any disputes shall be subject to the exclusive jurisdiction of the courts located in <strong>Nashik, Maharashtra, India</strong>. If any provision of these Terms is found to be unenforceable, the remaining provisions will remain in full force and effect.</p>
+          <p>For any legal notices or queries, please write to: <a href="mailto:legal@autonest.com">legal@autonest.com</a> or AutoNest Technologies Pvt. Ltd., Nashik, Maharashtra — 422001, India.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Auto<span>Nest</span></div>
+        <p>Your one-stop hub for smart auto services in Nashik. EV charging, mechanics, CNG booking, and car wash — all in one app.</p>
+        <div class="social-links mt-3">
+          <a href="#">𝕏</a><a href="#">in</a><a href="#">▶</a><a href="#">📘</a>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services/ev-charging.html">EV Charging</a></li>
+          <li><a href="services/mechanics.html">Mechanics</a></li>
+          <li><a href="services/cng-booking.html">CNG Booking</a></li>
+          <li><a href="services/car-wash.html">Car Wash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="help.html">Help Center</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="color:var(--muted)">© 2025 AutoNest. All rights reserved.</p>
+      <p style="color:var(--muted);font-size:.8rem">Made with ❤️ for Nashik</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  // ── Highlight active TOC on scroll ────────────────────────────
+  const sections = document.querySelectorAll('.legal-section');
+  const tocLinks = document.querySelectorAll('.toc-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 110) current = sec.id;
+    });
+    tocLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>

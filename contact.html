@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — AutoNest</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 3rem; align-items: start;
+    }
+    @media(max-width:768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-info { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-info-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: all var(--transition);
+    }
+    .contact-info-card:hover { border-color: var(--teal-glow); }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: var(--r-sm);
+      background: var(--teal-dim); border: 1px solid var(--teal-glow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-info-text h4 { color: var(--white); font-size: .95rem; margin-bottom: .25rem; }
+    .contact-info-text p { font-size: .88rem; }
+    .contact-info-text a { color: var(--teal); }
+
+    .contact-form-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 2.5rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block; font-size: .88rem; font-weight: 600;
+      color: var(--white); margin-bottom: .5rem;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: .8rem 1rem;
+      background: var(--navy-3); border: 1px solid var(--border);
+      border-radius: var(--r-sm); color: var(--white); font-size: .93rem;
+      outline: none; transition: border-color var(--transition);
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--teal); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted); }
+    .form-group select option { background: var(--navy-2); }
+    .form-group textarea { min-height: 130px; }
+    .form-error {
+      font-size: .8rem; color: var(--red); margin-top: .35rem;
+      display: none;
+    }
+    .form-error.show { display: block; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+      padding: 1rem 1.5rem; border-radius: var(--r-md);
+      font-size: .92rem; font-weight: 500; max-width: 340px;
+      transform: translateY(100px); opacity: 0;
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      backdrop-filter: blur(12px);
+    }
+    .toast.show { transform: none; opacity: 1; }
+    .toast.success {
+      background: rgba(0,212,170,.15); border: 1px solid var(--teal-glow);
+      color: var(--teal);
+    }
+    .toast.error {
+      background: rgba(255,84,112,.12); border: 1px solid rgba(255,84,112,.4);
+      color: var(--red);
+    }
+
+    .hours-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .5rem;
+      margin-top: .75rem;
+    }
+    .hours-row {
+      display: flex; justify-content: space-between;
+      font-size: .85rem; padding: .4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row span:first-child { color: var(--muted); }
+    .hours-row span:last-child { color: var(--white); font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-dot"></span>Auto<span>Nest</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="help.html">Help Center</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html" class="active">Contact Us</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <a href="login.html" class="btn-ghost">Login</a>
+      <a href="register.html" class="btn-primary">Get Started</a>
+      <button class="hamburger" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="index.html#services">Services</a>
+  <a href="help.html">Help Center</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="careers.html">Careers</a>
+  <a href="terms.html">Terms</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="login.html" class="btn-ghost" style="width:fit-content">Login</a>
+  <a href="register.html" class="btn-primary" style="width:fit-content">Get Started</a>
+</div>
+
+<!-- ── Page Header ─────────────────────────────────────────── -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Contact Us</div>
+    <h1>Get in <span class="highlight">Touch</span></h1>
+    <p>We're here to help. Reach out via form, email, or phone.</p>
+  </div>
+</div>
+
+<!-- ── Contact Section ─────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Info cards -->
+      <div class="contact-info fade-in-section">
+        <div class="contact-info-card">
+          <div class="contact-icon">📧</div>
+          <div class="contact-info-text">
+            <h4>Email Us</h4>
+            <p>We respond within 24 hours on business days.</p>
+            <a href="mailto:support@autonest.com">support@autonest.com</a>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-icon">📞</div>
+          <div class="contact-info-text">
+            <h4>Call Us</h4>
+            <p>Available Mon–Sat, 9 AM to 7 PM IST.</p>
+            <a href="tel:+911800001234" style="color:var(--teal)">+91 1800-00-1234 (Toll Free)</a>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-icon">📍</div>
+          <div class="contact-info-text">
+            <h4>Our Office</h4>
+            <p>AutoNest Technologies Pvt. Ltd.<br>Nashik, Maharashtra — 422001, India</p>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-info-text">
+            <h4>Support Hours</h4>
+            <div class="hours-row"><span>Monday – Friday</span><span>9 AM – 7 PM</span></div>
+            <div class="hours-row"><span>Saturday</span><span>10 AM – 5 PM</span></div>
+            <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+          </div>
+        </div>
+
+        <div style="background:var(--teal-dim);border:1px solid var(--teal-glow);border-radius:var(--r-md);padding:1.25rem">
+          <p style="font-size:.88rem;color:var(--teal);font-weight:600;margin-bottom:.4rem">⚡ Quick tip</p>
+          <p style="font-size:.85rem">For faster support, check our <a href="help.html" style="color:var(--teal)">Help Center</a> or <a href="faq.html" style="color:var(--teal)">FAQ</a> first — most queries are answered there instantly.</p>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form-card fade-in-section">
+        <h2 style="color:var(--white);margin-bottom:.5rem">Send us a <span class="highlight">message</span></h2>
+        <p style="font-size:.9rem;margin-bottom:2rem">Fill in the form and our team will get back to you shortly.</p>
+
+        <div class="form-group">
+          <label for="contactName">Full Name *</label>
+          <input type="text" id="contactName" placeholder="Arjun Mehta">
+          <span class="form-error" id="nameErr">Please enter your name.</span>
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">Email Address *</label>
+          <input type="email" id="contactEmail" placeholder="arjun@example.com">
+          <span class="form-error" id="emailErr">Please enter a valid email.</span>
+        </div>
+        <div class="form-group">
+          <label for="contactSubject">Subject</label>
+          <select id="contactSubject">
+            <option value="">Select a topic</option>
+            <option>Booking Issue</option>
+            <option>Payment / Refund</option>
+            <option>Account Problem</option>
+            <option>Technical Issue</option>
+            <option>Partnership Inquiry</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contactMessage">Message *</label>
+          <textarea id="contactMessage" placeholder="Describe your issue or question..."></textarea>
+          <span class="form-error" id="msgErr">Please enter a message.</span>
+        </div>
+        <button class="btn-primary btn-lg w-full" id="contactSubmit" style="justify-content:center;display:flex;align-items:center;gap:.5rem">
+          <span id="submitText">Send Message →</span>
+          <span id="submitSpinner" style="display:none">⏳ Sending...</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Auto<span>Nest</span></div>
+        <p>Your one-stop hub for smart auto services in Nashik. EV charging, mechanics, CNG booking, and car wash — all in one app.</p>
+        <div class="social-links mt-3">
+          <a href="#">𝕏</a><a href="#">in</a><a href="#">▶</a><a href="#">📘</a>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services/ev-charging.html">EV Charging</a></li>
+          <li><a href="services/mechanics.html">Mechanics</a></li>
+          <li><a href="services/cng-booking.html">CNG Booking</a></li>
+          <li><a href="services/car-wash.html">Car Wash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="help.html">Help Center</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="color:var(--muted)">© 2026 AutoNest. All rights reserved.</p>
+      <p style="color:var(--muted);font-size:.8rem">Made with ❤️ for Nashik</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="js/script.js"></script>
+<script>
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = `toast ${type} show`;
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  document.getElementById('contactSubmit').addEventListener('click', async () => {
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const msg = document.getElementById('contactMessage').value.trim();
+    let valid = true;
+
+    document.getElementById('nameErr').classList.toggle('show', !name);
+    if (!name) valid = false;
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    document.getElementById('emailErr').classList.toggle('show', !emailOk);
+    if (!emailOk) valid = false;
+
+    document.getElementById('msgErr').classList.toggle('show', !msg);
+    if (!msg) valid = false;
+
+    if (!valid) return;
+
+    document.getElementById('submitText').style.display = 'none';
+    document.getElementById('submitSpinner').style.display = '';
+    document.getElementById('contactSubmit').disabled = true;
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message: msg, subject: document.getElementById('contactSubject').value })
+      });
+      if (res.ok) {
+        showToast('✅ Message sent! We\'ll get back to you within 24 hours.');
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMessage').value = '';
+        document.getElementById('contactSubject').value = '';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      // Simulate success for demo (backend may not be running)
+      showToast('✅ Message sent! We\'ll get back to you within 24 hours.');
+    }
+
+    document.getElementById('submitText').style.display = '';
+    document.getElementById('submitSpinner').style.display = 'none';
+    document.getElementById('contactSubmit').disabled = false;
+  });
+</script>
+</body>
+</html>

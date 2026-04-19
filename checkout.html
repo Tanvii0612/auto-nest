@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — AutoNest</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Razorpay checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    /* ── Checkout Page Styles ── */
+    .checkout-page { min-height: 100vh; padding: 7rem 0 4rem; }
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
+
+    .checkout-card {
+      background: var(--card-glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+    }
+    .checkout-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--white);
+    }
+
+    /* Payment method tabs */
+    .pay-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .pay-tab {
+      flex: 1; min-width: 100px;
+      padding: .6rem .5rem;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: center;
+    }
+    .pay-tab.active {
+      border-color: var(--teal);
+      background: rgba(0,212,170,.1);
+      color: var(--teal);
+    }
+    .pay-tab:hover { border-color: var(--teal); color: var(--teal); }
+
+    .pay-panel { display: none; }
+    .pay-panel.active { display: block; }
+
+    /* UPI section */
+    .upi-options { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 1.25rem; }
+    .upi-btn {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .65rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--white);
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .upi-btn:hover, .upi-btn.selected {
+      border-color: var(--teal);
+      background: rgba(0,212,170,.08);
+    }
+    .upi-input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--navy-2);
+      color: var(--white);
+      font-size: .9rem;
+      margin-top: .75rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .upi-input:focus { border-color: var(--teal); }
+
+    /* QR section */
+    .qr-box {
+      text-align: center;
+      padding: 1.5rem;
+      border: 1.5px dashed var(--border);
+      border-radius: 14px;
+      margin-top: 1rem;
+    }
+    .qr-box svg { width: 160px; height: 160px; margin: 0 auto .75rem; display: block; }
+    .qr-upi-id {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .qr-upi-id span {
+      font-weight: 700;
+      color: var(--teal);
+      font-size: .9rem;
+    }
+
+    /* Card section */
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .card-grid .full { grid-column: 1 / -1; }
+    .form-label { display: block; font-size: .8rem; color: var(--muted); margin-bottom: .35rem; font-weight: 600; }
+
+    /* Order Summary */
+    .summary-item { display: flex; justify-content: space-between; align-items: center; padding: .6rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; }
+    .summary-item:last-of-type { border-bottom: none; }
+    .summary-total { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--teal); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--border); }
+
+    /* COD */
+    .cod-box { text-align: center; padding: 2rem 1rem; }
+    .cod-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* Pay button */
+    .pay-now-btn {
+      width: 100%; padding: 1rem;
+      background: linear-gradient(135deg, var(--teal), #00b896);
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 800;
+      border: none; border-radius: 14px;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      transition: opacity .2s, transform .1s;
+    }
+    .pay-now-btn:hover { opacity: .9; }
+    .pay-now-btn:active { transform: scale(.98); }
+    .pay-now-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .service-badge { display: inline-flex; align-items: center; gap: .4rem; background: rgba(0,212,170,.1); color: var(--teal); border: 1px solid var(--teal); border-radius: 20px; padding: .25rem .75rem; font-size: .8rem; font-weight: 600; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-dot"></span>Auto<span>Nest</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services">Services</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<div class="checkout-page">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:1.5rem"><a href="index.html">Home</a> → <a href="services/">Services</a> → Checkout</div>
+    <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:2rem;color:var(--white)">Complete Your <span class="highlight">Booking</span></h2>
+
+    <div class="checkout-grid">
+
+      <!-- ── LEFT: Payment Methods ── -->
+      <div>
+
+        <!-- Payment Method Tabs -->
+        <div class="checkout-card" style="margin-bottom:1.5rem">
+          <h3>💳 Choose Payment Method</h3>
+
+          <div class="pay-tabs">
+  <button class="pay-tab active" onclick="switchTab('razorpay',this)">⚡ Online Payment</button>
+  <button class="pay-tab" onclick="switchTab('cod',this)">🚪 Pay Later</button>
+</div>
+
+          <!-- ── UPI Panel ── -->
+          <!-- <div class="pay-panel active" id="panel-upi">
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Select your UPI app or scan QR</p>
+            <div class="upi-options">
+              <button class="upi-btn selected" onclick="selectUPI(this,'gpay')">
+                <span>🟢</span> Google Pay
+              </button>
+              <button class="upi-btn" onclick="selectUPI(this,'phonepe')">
+                <span>💜</span> PhonePe
+              </button>
+              <button class="upi-btn" onclick="selectUPI(this,'paytm')">
+                <span>🔵</span> Paytm
+              </button>
+              <button class="upi-btn" onclick="selectUPI(this,'other')">
+                <span>📲</span> Other UPI
+              </button>
+            </div>
+            <label class="form-label">Your UPI ID</label>
+            <input class="upi-input" id="upiIdInput" type="text" placeholder="yourname@upi or 9876543210@paytm" /> -->
+
+            <!-- QR Code Box -->
+            <!-- <div class="qr-box">
+              <p style="font-size:.8rem;color:var(--muted);margin-bottom:.75rem">Or scan this QR to pay directly</p>
+              SVG QR placeholder — replace with real QR image in production
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border:3px solid var(--teal);border-radius:12px;padding:8px;background:white">
+                Finder patterns -->
+                <!-- <rect x="10" y="10" width="60" height="60" fill="none" stroke="#000" stroke-width="6"/>
+                <rect x="22" y="22" width="36" height="36" fill="#000"/>
+                <rect x="130" y="10" width="60" height="60" fill="none" stroke="#000" stroke-width="6"/>
+                <rect x="142" y="22" width="36" height="36" fill="#000"/>
+                <rect x="10" y="130" width="60" height="60" fill="none" stroke="#000" stroke-width="6"/>
+                <rect x="22" y="142" width="36" height="36" fill="#000"/> -->
+                <!-- Data modules (simplified pattern) -->
+                <!-- <g fill="#000">
+                  <rect x="82" y="10" width="8" height="8"/>
+                  <rect x="98" y="10" width="8" height="8"/>
+                  <rect x="114" y="10" width="8" height="8"/>
+                  <rect x="82" y="26" width="8" height="8"/>
+                  <rect x="114" y="26" width="8" height="8"/>
+                  <rect x="90" y="42" width="8" height="8"/>
+                  <rect x="106" y="42" width="8" height="8"/>
+                  <rect x="10" y="82" width="8" height="8"/>
+                  <rect x="26" y="82" width="8" height="8"/>
+                  <rect x="42" y="90" width="8" height="8"/>
+                  <rect x="58" y="82" width="8" height="8"/>
+                  <rect x="82" y="82" width="8" height="8"/>
+                  <rect x="98" y="90" width="8" height="8"/>
+                  <rect x="114" y="82" width="8" height="8"/>
+                  <rect x="130" y="82" width="8" height="8"/>
+                  <rect x="146" y="90" width="8" height="8"/>
+                  <rect x="162" y="82" width="8" height="8"/>
+                  <rect x="178" y="82" width="8" height="8"/>
+                  <rect x="10" y="98" width="8" height="8"/>
+                  <rect x="42" y="106" width="8" height="8"/>
+                  <rect x="66" y="98" width="8" height="8"/>
+                  <rect x="82" y="98" width="8" height="8"/>
+                  <rect x="106" y="98" width="8" height="8"/>
+                  <rect x="130" y="106" width="8" height="8"/>
+                  <rect x="154" y="98" width="8" height="8"/>
+                  <rect x="178" y="106" width="8" height="8"/>
+                  <rect x="82" y="114" width="8" height="8"/>
+                  <rect x="98" y="114" width="8" height="8"/>
+                  <rect x="122" y="114" width="8" height="8"/>
+                  <rect x="146" y="114" width="8" height="8"/>
+                  <rect x="162" y="114" width="8" height="8"/>
+                  <rect x="130" y="130" width="8" height="8"/>
+                  <rect x="154" y="138" width="8" height="8"/>
+                  <rect x="178" y="130" width="8" height="8"/>
+                  <rect x="130" y="146" width="8" height="8"/>
+                  <rect x="162" y="154" width="8" height="8"/>
+                  <rect x="178" y="146" width="8" height="8"/>
+                  <rect x="130" y="162" width="8" height="8"/>
+                  <rect x="146" y="162" width="8" height="8"/>
+                  <rect x="178" y="162" width="8" height="8"/>
+                  <rect x="130" y="178" width="8" height="8"/>
+                  <rect x="154" y="178" width="8" height="8"/>
+                  <rect x="178" y="178" width="8" height="8"/>
+                </g>
+              </svg>
+              <div class="qr-upi-id">UPI ID: <span>autonest@razorpay</span></div>
+              <p style="font-size:.76rem;color:var(--muted)">Open any UPI app → Scan QR → Enter amount → Pay</p>
+            </div>
+
+         
+          </div> -->
+
+          <!-- ── Card Panel ── -->
+          <!-- <div class="pay-panel" id="panel-card">
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.25rem">Enter your Credit or Debit card details</p>
+            <div class="card-grid">
+              <div class="full">
+                <label class="form-label">Cardholder Name</label>
+                <input class="upi-input" id="cardName" type="text" placeholder="Name on card" />
+              </div>
+              <div class="full">
+                <label class="form-label">Card Number</label>
+                <input class="upi-input" id="cardNumber" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)" />
+              </div>
+              <div>
+                <label class="form-label">Expiry Date</label>
+                <input class="upi-input" id="cardExpiry" type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" />
+              </div>
+              <div>
+                <label class="form-label">CVV</label>
+                <input class="upi-input" id="cardCVV" type="password" placeholder="• • •" maxlength="4" />
+              </div>
+            </div>
+            <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">🔒 Your card details are encrypted and never stored.</p>
+           
+          </div> -->
+
+          <!-- ── Razorpay Panel ── -->
+         <div class="pay-panel active" id="panel-razorpay">
+            <div style="text-align:center;padding:1.5rem 0">
+              <div style="font-size:3rem;margin-bottom:.75rem">⚡</div>
+              <h4 style="color:var(--white);margin-bottom:.5rem">Pay with Razorpay</h4>
+              <p style="color:var(--muted);font-size:.88rem;margin-bottom:1.5rem">Use UPI, Cards, Net Banking, Wallets — all in one secure checkout</p>
+              <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;font-size:.82rem;color:var(--muted)">
+                <span>✅ UPI</span><span>✅ All Cards</span><span>✅ Net Banking</span><span>✅ EMI</span><span>✅ Wallets</span>
+              </div>
+            </div>
+           <button class="pay-now-btn" id="rzpPayBtn">
+  Pay ₹<span class="amount-display">0</span>
+</button>
+          </div>
+
+          <!-- ── COD Panel ── -->
+          <div class="pay-panel" id="panel-cod">
+            <div class="cod-box">
+              <div class="cod-icon">🚪</div>
+              <h4 style="color:var(--white);margin-bottom:.5rem">Pay Later / Cash on Delivery</h4>
+              <p style="color:var(--muted);font-size:.88rem;margin-bottom:1.5rem">Your booking will be confirmed. Pay ₹<span class="amount-display">0</span> when the service is completed.</p>
+              <ul style="text-align:left;color:var(--muted);font-size:.85rem;margin-bottom:1.5rem;padding-left:1.25rem">
+                <li>📋 Order will be placed with "Pending Payment" status</li>
+                <li>📞 Our team will contact you to confirm</li>
+                <li>💵 Pay cash when service is delivered</li>
+              </ul>
+            </div>
+            <button class="pay-now-btn" onclick="handleCOD()">
+              ✅ Confirm Order — Pay Later
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT: Order Summary ── -->
+      <div>
+        <div class="checkout-card" style="position:sticky;top:7rem">
+          <h3>🧾 Order Summary</h3>
+
+          <div id="summaryServiceName" class="service-badge">🚿 Car Wash</div>
+
+          <div class="summary-item">
+            <span style="color:var(--muted)">Service</span>
+            <span id="summaryName" style="font-weight:600;color:var(--white)">Premium Wash</span>
+          </div>
+          <div class="summary-item">
+            <span style="color:var(--muted)">Duration</span>
+            <span id="summaryDuration" style="color:var(--muted)">~50 min</span>
+          </div>
+          <div class="summary-item">
+            <span style="color:var(--muted)">Price</span>
+            <span id="summaryPrice" style="color:var(--white)">₹399</span>
+          </div>
+          <div class="summary-item">
+            <span style="color:var(--muted)">GST (18%)</span>
+            <span id="summaryTax" style="color:var(--muted)">₹71.82</span>
+          </div>
+          <div class="summary-total">
+            <span>Total</span>
+            <span id="summaryTotal">₹470.82</span>
+          </div>
+
+          <div style="margin-top:1.25rem;padding:.85rem;background:rgba(0,212,170,.07);border:1px solid rgba(0,212,170,.2);border-radius:12px;font-size:.82rem;color:var(--teal)">
+            🔒 Secure checkout · 256-bit SSL encryption
+          </div>
+
+          <div style="margin-top:1rem;font-size:.78rem;color:var(--muted);text-align:center">
+            By proceeding you agree to our <a href="#" style="color:var(--teal)">Terms</a> &amp; <a href="#" style="color:var(--teal)">Cancellation Policy</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/script.js"></script>
+<script>
+/* ============================================================
+   Checkout Page Logic
+   ============================================================ */
+
+/* ================================
+   CLEAN RAZORPAY CHECKOUT FLOW
+================================ */
+
+// Read params
+const params = new URLSearchParams(window.location.search);
+const productId   = params.get('product_id');
+const productName = params.get('name') || 'Service Booking';
+const productPrice= parseFloat(params.get('price') || 0);
+
+let finalAmount = 0;
+
+// Populate summary
+function populateSummary() {
+  const tax   = productPrice * 0.18;
+  const total = productPrice + tax;
+  finalAmount = total;
+
+  document.getElementById('summaryName').textContent  = productName;
+  document.getElementById('summaryPrice').textContent = '₹' + productPrice.toFixed(2);
+  document.getElementById('summaryTax').textContent   = '₹' + tax.toFixed(2);
+  document.getElementById('summaryTotal').textContent = '₹' + total.toFixed(2);
+
+  document.querySelectorAll('.amount-display')
+    .forEach(el => el.textContent = total.toFixed(2));
+}
+
+populateSummary();
+
+// Auth check
+if (!getToken()) {
+  window.location.href = 'login.html';
+}
+
+// Create backend order
+async function createOrder() {
+  const res = await OrderAPI.create({
+    product_id: productId,
+    quantity: 1,
+    payment_method: 'razorpay'
+  });
+  return res.data.order_id;
+}
+
+// MAIN PAYMENT FUNCTION
+async function handlePayment() {
+  const btn = document.getElementById('rzpPayBtn');
+  btn.textContent = "Opening payment...";
+  btn.disabled = true;
+
+  try {
+    // Step 1: Create order in your backend
+    const orderId = await createOrder();
+
+    // Step 2: Create Razorpay order
+    const rzpRes = await PaymentAPI.createRazorpayOrder({
+      order_id: orderId
+    });
+
+    const { razorpay_order_id, amount, currency, key_id } = rzpRes.data;
+
+    // Step 3: Open Razorpay
+    const options = {
+      key: key_id,
+      amount: amount,
+      currency: currency,
+      name: "AutoNest",
+      description: productName,
+      order_id: razorpay_order_id,
+
+      method: {
+        upi: true,
+        card: true,
+        netbanking: true,
+        wallet: true
+      },
+
+      handler: async function (response) {
+        try {
+          const verify = await PaymentAPI.verify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            order_id: orderId
+          });
+
+          if (verify.success) {
+            window.location.href = `payment-success.html?order_id=${orderId}`;
+          } else {
+            window.location.href = `payment-failure.html?order_id=${orderId}`;
+          }
+        } catch (err) {
+          window.location.href = `payment-failure.html?order_id=${orderId}`;
+        }
+      },
+
+      modal: {
+        ondismiss: function () {
+          btn.textContent = "Pay Now";
+          btn.disabled = false;
+        }
+      }
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on('payment.failed', function (response) {
+      window.location.href = `payment-failure.html?reason=${response.error.description}`;
+    });
+
+    rzp.open();
+
+  } catch (err) {
+    alert("Payment failed: " + err.message);
+    btn.textContent = "Pay Now";
+    btn.disabled = false;
+  }
+}
+
+// Attach button
+document.getElementById("rzpPayBtn").onclick = handlePayment;
+</script>
+</body>
+</html>
